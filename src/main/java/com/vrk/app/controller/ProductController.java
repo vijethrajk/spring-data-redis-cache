@@ -1,7 +1,6 @@
 package com.vrk.app.controller;
 
 import com.vrk.app.dto.ProductDTO;
-import com.vrk.app.entity.Product;
 import com.vrk.app.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,28 +18,30 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping("/save")
-    public ProductDTO save(@RequestBody ProductDTO productDTO){
+    public ProductDTO save(@RequestBody ProductDTO productDTO) {
         return productService.saveOrUpdate(productDTO);
     }
+
     @GetMapping("/all")
-    public List<ProductDTO> getProducts(){
+    public List<ProductDTO> getProducts() {
         return productService.findAll();
     }
+
     @PostMapping("/remove")
-    public ResponseEntity<?> remove(@RequestBody Map<String,Long> map) {
+    public ResponseEntity<?> remove(@RequestBody Map<String, Long> map) {
         try {
-            return new ResponseEntity<String>(productService.remove(map.get("id")),HttpStatus.OK);
+            return new ResponseEntity<String>(productService.remove(map.get("id")), HttpStatus.OK);
         } catch (Exception e) {
-           //log e
+            //log e
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> find(@PathVariable("id") Long id){
+    public ResponseEntity<?> find(@PathVariable("id") Long id) {
         try {
-            ProductDTO dto= productService.findById(id);
-            return new ResponseEntity<ProductDTO>(dto,HttpStatus.OK);
+            ProductDTO dto = productService.findById(id);
+            return new ResponseEntity<ProductDTO>(dto, HttpStatus.OK);
         } catch (Exception e) {
             //log e
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
